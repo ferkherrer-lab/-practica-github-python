@@ -51,20 +51,20 @@ def registrar_log(mensaje, nivel="info"):
     def calcular_costo(self):
       return (self.tarifa * self.dias) * 1.15
 
-def ejecutar_simulacion():
-  print("=" * 75)
-  print("SIMULACION DE TAREA"
-  print("=" * 75 + "\n")
+  def ejecutar_simulacion():
+      print("=" * 75)
+      print("SIMULACION DE TAREA")
+      print("=" * 75 + "\n")
 
-  try:
-      c1 = cliente("Dario Gonzales", "Dario@gmail.com")
-      print(f"op 1 [OK] cliente registrado -> {c1.nombre}")
-      logging.info(f"cliente registrado: {c1.nombre}")
-  except excepcion as e:
-      print(e)
-  try:
-      c2 = cliente("Duver Arias", "correo_sin_arroba")
-  except errortarea as e:
-      print(f"op 2 [controlado]: {e}")
-      logging.warning(str(e))
+      try:
+          c1 = cliente("Dario Gonzales", "Dario@gmail.com")
+          print(f"op 1 [OK] cliente registrado -> {c1.nombre}")
+          logging.info(f"cliente registrado: {c1.nombre}")
+      except logging.exception as e:
+        print(e)
+      try:
+          c2 = cliente("Duver Arias", "correo_sin_arroba")
+      except errortarea as e:
+          print(f"op 2 [controlado]: {e}")
+          logging.warning(str(e))
   
