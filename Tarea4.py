@@ -1,3 +1,4 @@
+import email
 import logging
 from abc import ABC, abstractmethod
 from datetime import datetime
@@ -27,62 +28,117 @@ def registrar_log(mensaje, nivel="info"):
       pass
   
   class servicio(ABC):
-    def __init__(self, nombre, tarifa):
+    def __init__(self, nombre, tarifa, email):
         self.nombre = nombre
         self.tarifa = tarifa
+        self.email = email
+
+    @property
+    def email(self):
+        return self._email
+    @email.setter
+    def email(self, valor):
+        if "@" not in valor or "." not in valor:
+            raise datosinvalidosexception(f" el correo "{valor}"  no es valido ( falta @ )")
+        self._email = valor
+    
+    class servicio(ABC):
+        def __init__(self, nombre, costo_base):
+             self.nombre = nombre
+             self.costo_base = costo_base
           
     @abstractmethod
     def calcular_costo(self):
           pass
 
-  class reservasala(servicio):
-    def __init__(self, nombre, tarifa, horas):
-        super().__init__(nombre, tarifa)
-        self.horas = horas
-
-    def calcular_costo(self):
-      return self.tarifa * self.horas
-
-  class alquilerequipo(servicio):
-    def __init__(self, nombre, tarifa, dias):
-        super().__init__(nombre, tarifa)
-        self.dias = dias
-
-    def calcular_costo(self):
-      return (self.tarifa * self.dias) * 1.15
-    
+class reservasala(servicio):
+    def calcular_costo(self, horas):
+        if horas <= 0:
+            raise ReservaError(" las hora de la reserva debe ser mayor a 0")
+        return self.costo_base * horas
+        
     def ejecutar_simulacion():
       print("=" * 75)
-      print("SIMULACION DE TAREA")
+      print("SIMULACION DE SIMULACION SOFTWARE FJ")
       print("=" * 75 + "\n")
       
-      clientes = {}
-      servicios = {}
-      reservas = []
-      reservasalas = []
-      alquilerdeequpios =[]
-      AsesoriaEspecializada = []
-      try:
-          c1 = clientes("Dario Gonzales", "Dario@gmail.com")
+    cliente = {}
+    servicios = []
+    reservas = []
+    reservasalas = []
+    alquilerdeequpios =[]
+    AsesoriaEspecializada = []
+      
+    print(" servicio 1: registrar cliente ")
+    try:
+          c1 = cliente("Dario Gonzales", "Dario@gmail.com")
+          cliente.append(c1)
           print(f"op 1 [OK] cliente registrado -> {c1.nombre}")
-          logging.info(f"cliente registrado: {c1.nombre}")
-      except logging.exception as e:
-        print(e)
+    except Exception as e:
+        print(f"-> Error: {e}")
+    else:
+        print(f"-> [Else]: operacion completa sin errrores")
+    finally:
+        print("-> [finally] fin de operacion 1.\n")
         
-      try:
-           c2 = clientes("Duver Arias", "correo_sin_arroba")
-      except tareaexception as e:
-          print(f"op 2 [controlado]: {e}")
-          logging.warning(str(e))
+    print(" servicio 2: registrar cliente con correo inavildo")
+    try:
+          c2 = cliente("Duver arias", "Duver-gmail.com")
+          cliente.append(c2)
+    except Exception as e:
+        print(f"-> [capturado]: Error -> {e}")
+        logging.error (f"of 2 fallo: {e}")
+    else:
+        print("-> [Else]: ocurrio un error")
+    finally:
+        print("-> [finally]: fin de la operacion 2.\n")
           
-      try:
-          r1 = reservasalas(101, "sala vip", tarifa_base=500.0, capacidad_personas=12)
-          servicios[r1.id_entidad] = r1
-          print(f"op 3 [OK]: {r1.obtener_resumen()}")
-          registrar_log(f"servicio creado: {r1.nombre_servicio}")
-      except logging.exceptionxception as e:
-          print(f"op 3 [error]; {e}")
-          
+    print(" servicio 3: crear un servicio de sala")
+    try:
+          r1 = reservarsala("sala vip", 400.0)
+          servicios.append(r1)
+          print(f"-> ¡exito! servicio creado:{r1.nombre} a $[r1.costo_base}/hora")
+    except Exception as e:
+        print(f"-> Error: {e}")
+    else:
+        print(f"-> [Else]: servicio registrado correctamente")
+    finally:
+        print("-> [finally] fin de operacion 3.\n")
+
+    print(" operacion 4: calcular el costo por horas en la sala")
+    try:
+        total = r1.calcular_costo (5)
+            print(f"-> ¡Exito! costo por 5 horas: ${total]")
+    except Exception as e:
+            print(f"-> Error: {e}")
+    else:
+            print(f"-> [Else]: calculo realizado con exito")
+    finally:
+            print("-> [finally]: fin de la operacion 4.\n")
+
+    print(" operacion 5: calcular costo de horas negativas")
+    try:
+        r1.calcular_costo(-2)
+    except reservaerror as e:
+        print(f"-> [capturado]: error  controlado -> {e}")
+        logging.error(f"op 5 fallo: {e}")
+    else:
+        print("-> [Else]: no se ejecuta")
+    finally:
+        print("-> [finally]: fin de la operacion 5.\n")
+
+    print(" operacion 6: registrar segundo cliente")
+    try:
+        c3 = cliente("maria torres", "maria@gmail.com")
+        cliente.append(c3)
+        print(f"-> ¡Exito! cliente creado: {c3.nombre}")
+    except Exception as e:
+        print("-> Error: {e}2)
+    else:
+        print("-> [Else]: Estupendo")
+    finally:
+        print("-> [finally]: fin de la operacion 6.\n")
+        
       try:
           r2 = alquilerdeequpios(102, "sonido+proyector+computador", tarifa_base=30.0, seguro_incluido=True)
           servicios[r2.id_entidad] = r2
