@@ -9,14 +9,6 @@ logging.basicConfig(
     level=logging.INFO
 )
 
-def registrar_log(mensaje, nivel="info"):
-  if nivel == "info":
-        logging.info(mensaje)
-  elif nivel == "error":
-        logging.error(mensaje)
-  elif nivel == "warning":
-        logging.warning(mensaje)
-
 class errorsoftwarefj(Exception):
       pass
 class ClienteError(errorsoftwarefj):
