@@ -65,11 +65,11 @@ class reservasala(servicio):
     cliente = {}
     servicios = []
     reservas = []
-    reservasalas = []
+    reservasala = {}
     alquilerdeequpios =[]
     AsesoriaEspecializada = []
       
-    print(" servicio 1: registrar cliente ")
+    print(" servicio 1: registrar cliente")
     try:
           c1 = cliente("Dario Gonzales", "Dario@gmail.com")
           cliente.append(c1)
@@ -81,9 +81,9 @@ class reservasala(servicio):
     finally:
         print("-> [finally] fin de operacion 1.\n")
         
-    print(" servicio 2: registrar cliente con correo inavildo")
+    print(" servicio 2: registrar cliente")
     try:
-          c2 = cliente("Duver arias", "Duver-gmail.com")
+          c2 = cliente("Duver arias", "Duver@gmail.com")
           cliente.append(c2)
     except Exception as e:
         print(f"-> [capturado]: Error -> {e}")
@@ -92,23 +92,24 @@ class reservasala(servicio):
         print("-> [Else]: ocurrio un error")
     finally:
         print("-> [finally]: fin de la operacion 2.\n")
-          
+        
     print(" servicio 3: crear un servicio de sala")
     try:
-          r1 = reservarsala("sala vip", 400.0)
+          r1 = reservasala("sala vip", 400.0)
           servicios.append(r1)
-          print(f"-> ¡exito! servicio creado:{r1.nombre} a $[r1.costo_base}/hora")
+          print(f"-> ¡exito! servicio creado:{r1.nombre} a ${r1.costo_base}/hora")
     except Exception as e:
         print(f"-> Error: {e}")
     else:
         print(f"-> [Else]: servicio registrado correctamente")
     finally:
         print("-> [finally] fin de operacion 3.\n")
-
+        
+          
     print(" operacion 4: calcular el costo por horas en la sala")
     try:
         total = r1.calcular_costo (5)
-            print(f"-> ¡Exito! costo por 5 horas: ${total]")
+        print(f"-> ¡Exito! costo por 5 horas: ${total}")
     except Exception as e:
             print(f"-> Error: {e}")
     else:
@@ -119,7 +120,7 @@ class reservasala(servicio):
     print(" operacion 5: calcular costo de horas negativas")
     try:
         r1.calcular_costo(-2)
-    except reservaerror as e:
+    except ReservaError as e:
         print(f"-> [capturado]: error  controlado -> {e}")
         logging.error(f"op 5 fallo: {e}")
     else:
@@ -133,56 +134,63 @@ class reservasala(servicio):
         cliente.append(c3)
         print(f"-> ¡Exito! cliente creado: {c3.nombre}")
     except Exception as e:
-        print("-> Error: {e}2)
+        print(f"-> Error: {e}")
     else:
         print("-> [Else]: Estupendo")
     finally:
         print("-> [finally]: fin de la operacion 6.\n")
         
-      try:
-          r2 = alquilerdeequpios(102, "sonido+proyector+computador", tarifa_base=30.0, seguro_incluido=True)
-          servicios[r2.id_entidad] = r2
-          print(f"op 4 [OK]: {r2.obtener_resumen()}")
-          registrar_log(f"servicio creado: {r2.nombre_servicio}")
-      except logging.exception as e:
-          print(f"op 4 [error]: {e}")
-          
-      try:
-          r3 = reservasala(104, "sala economica", tarifa_base=300.0, capacidad_personas=6)
-          servicios[r3.id_entidad] = r3
-          print(f"op 5 [OK]: {r3.obtener_resumen()}")
-          registrar_log(f"servicio creado: {r3.nombre_servicio}")
-      except logging.exception as e:
-          print(f"op 5 [error]; {e}")
-          
-      try:
-          s1 = reservas(501, clientes[1], servicio[101], duracion_unidades=4)
-          s1.procesar_reserva(tasa_inpuestos=0.19, descuento=0.10)
-          reservas.append(s1)
-          print("op 6 [OK]: reserva procesada correctamente")
-      except logging.exception as e:
-          print(f"op 6 [error]: {e}")
-          
-      try:
-          s2 = reservas(502, clientes[1], servicio[103], duracion_unidades=2)
-          s2.procesar_reserva(tasa_inpuestos=0.19, descuento=0.10)
-          reservas.append(s2)
-      except reservainvalidaexception as e:
-          msg=f"op 7[controlado] fallo inesperado duracion invalida -> {e}"
-          print(msg)
-      try:
-          s3 = AsesoriaEspecializada(104, "Asesoría Ciberseguridad", tarifa_base=80.0, especialista="Dra. López", disponible=True)
-          r3 = reservas(504, clientes[1], s3, duracion_unidades=3)
-          r3.procesar_reserva(nivel_urgencia="alta")
-          reservas.append(r3)
-          r3.cancelar_reserva()
-          print("Op 7 [OK]: Reserva creada, procesada y cancelada correctamente.")
-      except Exception as e:
-          print(f"Op 7 [error]: {e}")
+        
+    print(" operacion 7: validar correo del cliente")
+    try:
+        c3.gmail = "correo incorrecto o faltan caracteres"
+    except clienteerror as e:
+        print(f"-> [capturado]: se detecto correo invalido ->{e}")
+        logging.error(f"op 7 fallo: {e}")
+    else:
+        print("-> [Else]: modificacion")
+    finally:
+        print(f"-> [finally]: fin de la operacion 7.\n")
+    
+    print(" operacion 8: servicio de asesoria tecnica")
+    try:
+        r2 = reservasala("asesoria", 100.0)
+        servicio.append(r2)
+        print(f"-> ¡Exito! servicio {r2.nombre} creado")
+    except Exception as e:
+        print(f"-> Error: {e}")
+    else:
+        print("-> [Else]: operacion exitosa")
+    finally:
+        print("-> [finally]: fin de la opracion 8.\n")
 
-      print("\n" + "=" * 65)
-      print(" SIMULACIÓN FINALIZADA CON ÉXITO ")
-      print("=" * 65)
+    print(" operacion 9: calcular costo de asesoria")
+    try:
+        costo_asesoria = r2.calcular_costo(8)
+        print(f"-> ¡Exito! costo total: ${costo_asesoria}")
+    except Exception as e:
+        print(f"-> Error: {e}")
+    else:
+        print("-> [Else]: Estupendo")
+    finally:
+        print("-> [finally]: fin de la opracion 9.\n")
+
+    print(" operacion 10: simular errores del sistema")
+    try:
+        raise errorsoftwarefj("falla de simulacion")
+    except errorsoftwarefj as e:
+            print(f"-> [capturado]: error de sistema encontrado -> {e}")
+            logging.critical(f"op 10 error critico: {e}")
+    else:
+        print("-> [Else]: no se encontraron errores")
+    finally:
+        print("-> [finally]: fin de la operacion 10 y cierre de simulacion.\n")
+
+    print("\n" + "=" * 65)
+    print(" Resumen: clientes guardados: {len(cliente)} | servicios: {len(servicio)}")
+    print(" registro_errores.log")
+    print(" SIMULACIÓN FINALIZADA CON ÉXITO ")
+    print("=" * 65)
 
 if __name__ == "__main__":  
     ejecutar_simulacion()
