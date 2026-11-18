@@ -138,30 +138,31 @@ def ejecutar_operaciones():
         print("-> [Else]: servicio registrado correctamente")
     finally:
         print("-> [Finally] fin de operacion 3.\n")
-
-    # operacion 4: calcular el costo por horas en la sala
-    print("operacion 4: calcular el costo por horas en la sala")
+    
+    # operacion 4: calcular costo de horas negativas
+        print("Operación 4: Creación INCORRECTA del servicio (Costo base negativo)")
+    try:
+        r_malo = SalaVIP(-50.0)
+        servicios.append(r_malo)
+    except ReservaError as e:
+        print(f"-> [Capturado]: Error controlado en servicio -> {e}")
+        logging.error(f"Op 4 falló controladamente: {e}")
+    else:
+        print("-> [Else]: Esto no se ejecuta.")
+    finally:
+        print("-> [Finally]: Fin de la operación 4.\n")
+    
+    # operacion 5: calcular costo de horas en sala VIP
+    print("Operación 5: Cálculo de reserva EXITOSO (5 horas en Sala VIP)")
     try:
         total = r1.calcular_costo(5)
-        print(f"-> ¡Éxito! costo por 5 horas: ${total}")
+        print(f"-> ¡Éxito! Costo total calculado: ${total}")
     except Exception as e:
         print(f"-> Error: {e}")
     else:
-        print("-> [Else]: calculo realizado con exito")
+        print("-> [Else]: Cálculo realizado con éxito.")
     finally:
-        print("-> [Finally] fin de operacion 4.\n")
-
-    # operacion 5: calcular costo de horas negativas
-    print("operacion 5: calcular costo de horas negativas")
-    try:
-        r1.calcular_costo(-2)
-    except ReservaError as e:
-        print(f"-> [capturado]: error controlado -> {e}")
-        logging.error(f"op 5 fallo: {e}")
-    else:
-        print("-> [Else]: no se ejecuta")
-    finally:
-        print("-> [Finally]: fin de la operacion 5.\n")
+        print("-> [Finally]: Fin de operación 5.\n")
 
     # operacion 6: registrar segundo cliente
     print("operacion 6: registrar segundo cliente")
@@ -211,7 +212,7 @@ def ejecutar_operaciones():
     except Exception as e:
         print(f"-> Error: {e}")
     else:
-        print("-> [Else]: Estupendo")
+        print("-> [Else]: GENIAL")
     finally:
         print("-> [Finally]: fin de la operacion 9.\n")
 
